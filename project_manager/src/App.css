@@ -1,3 +1,9 @@
+/*Mesure variables*/
+:root{
+--main-radius:5px;
+--main-padding:5px;
+}
+
 body {
     margin: 0px;
 }
@@ -6,25 +12,51 @@ body {
     background-color: gray;
     display: grid;
     height: 100vh;
-    grid-template-columns: 1fr 3fr;
-    grid-template-rows: 0.2fr 3fr;
+    grid-template-columns: 1.2fr 3fr;
+    grid-template-rows: 0.5fr 3fr;
     grid-template-areas: 
         "nav nav"
         "sideBar contentArea";
-    grid-gap: 0.2rem;  
+    grid-gap: 0.2rem; 
+    font-family: "Merriweather", serif;
+    font-weight: 300;
+    font-style: normal;    
 }
 
+h1{
+    font-family: "Merriweather", serif;
+    font-weight: 400;
+    font-style: normal;
+}
 nav{
     background-color: green;
     grid-area: nav;
+    border-radius: var(--main-radius);
+    padding-top: var(--main-padding);
 }
 
 #sideBar{
     background-color: brown;
     grid-area: sideBar;
+    border-radius: var(--main-radius);
+    padding-top: var(--main-padding);
 }
 
 #contentArea{
     background-color: aqua;
     grid-area: contentArea;
+    border-radius: var(--main-radius);
+    padding-top: var(--main-padding);
+}
+
+/*Change grid display depending on screen size*/
+@media only screen and (max-width:1000px){
+    .container{
+        grid-template-columns: 1fr;
+        grid-template-rows: 15vh 10vh auto;
+        grid-template-areas: 
+        "nav"
+        "sideBar"
+        "contentArea";
+    }
 }
