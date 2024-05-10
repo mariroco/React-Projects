@@ -24,15 +24,18 @@ body {
 }
 
 h1{
+    margin: auto;
     font-family: "Merriweather", serif;
     font-weight: 400;
+    color: aliceblue;
     font-style: normal;
 }
+
 nav{
     background-color: rgb(24, 22, 27);
     grid-area: nav;
     border-radius: var(--main-radius);
-    padding-top: var(--main-padding);
+    padding-bottom: var(--main-padding);
 }
 
 #sideBar{
@@ -58,5 +61,13 @@ nav{
         "nav"
         "sideBar"
         "contentArea";
+    }
+
+    h1{
+        margin: auto;
+        font-family: "Merriweather", serif;
+        font-weight: 400;
+        color: aliceblue;
+        font-style: normal;
     }
 }
