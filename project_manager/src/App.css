@@ -1,0 +1,30 @@
+body {
+    margin: 0px;
+}
+
+.container {
+    background-color: gray;
+    display: grid;
+    height: 100vh;
+    grid-template-columns: 1fr 3fr;
+    grid-template-rows: 0.2fr 3fr;
+    grid-template-areas: 
+        "nav nav"
+        "sideBar contentArea";
+    grid-gap: 0.2rem;  
+}
+
+nav{
+    background-color: green;
+    grid-area: nav;
+}
+
+#sideBar{
+    background-color: brown;
+    grid-area: sideBar;
+}
+
+#contentArea{
+    background-color: aqua;
+    grid-area: contentArea;
+}
