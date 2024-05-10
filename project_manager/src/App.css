@@ -29,7 +29,7 @@ h1{
     font-style: normal;
 }
 nav{
-    background-color: green;
+    background-color: rgb(24, 22, 27);
     grid-area: nav;
     border-radius: var(--main-radius);
     padding-top: var(--main-padding);
