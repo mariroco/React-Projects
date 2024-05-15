@@ -1,0 +1,52 @@
+#ProjectList {
+    text-align: right;
+    color: white;
+    overflow: auto;
+    height: 80vh;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    width: 100%;
+}
+
+.ProjectTitle{
+    color: orangered;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0%;
+    padding: 0%;
+}
+
+#ProjectList::-webkit-scrollbar { 
+    display: none;
+}
+
+.Project{
+    margin: 2rem;
+}
+
+@media only screen and (max-width:1000px){
+    #ProjectList {
+        overflow-y: hidden;
+        overflow-x: auto;
+        white-space: nowrap;
+        -ms-overflow-style: initial;
+        scrollbar-width: thin;
+        text-align: center;
+        color: white;
+
+        width: 100vw;
+        height: 100%;
+        
+    }
+    #ProjectList::-webkit-scrollbar { 
+        display:inline;
+    }
+    
+    .Project{
+        display:inline-block;
+        margin: 1rem;
+        margin-top: 1.5rem;
+    }
+    
+    
+}
