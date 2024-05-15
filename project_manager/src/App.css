@@ -35,7 +35,7 @@ nav{
 }
 
 #sideBar{
-    background-color: orange;
+    background-color: orangered;
     grid-area: sideBar;
     border-bottom-right-radius: 15px;
     padding-top: var(--main-padding);
@@ -44,7 +44,8 @@ nav{
 #contentArea{
     grid-area: contentArea;
     width: 100%;
-    background-color: aliceblue;
+    overflow: auto;
+    background-color: white;
     border-radius: var(--main-radius);
     padding-top: var(--main-padding);
 }

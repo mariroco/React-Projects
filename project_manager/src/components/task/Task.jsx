@@ -1,3 +1,5 @@
+import './Task.css';
+
 export default function Task(){
     return(
         <>
@@ -5,8 +7,8 @@ export default function Task(){
                 <div style={{width:'100%'}}>
                     <p>Here goes the task description.</p>
                 </div>
-                <div style={{width:'fit-content'}}>
-                     <p>Task state buttons go here</p>
+                <div style={{textAlign:'center', verticalAlign:'middle'}}>
+                    <input className='checkBox' type="checkbox" style={{marginTop: '1rem'}} /> 
                 </div>
             </div>
             

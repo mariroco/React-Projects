@@ -1,8 +1,10 @@
 import Pencil from "../../assets/svg/pencil.svg";
 import Trash from "../../assets/svg/trash.svg";
+import Plus from "../../assets/svg/plus.svg"
 import Task from "../task/Task.jsx";
+import RoundedButton from "../buttons/RoundedButton.jsx";
 export default function ProjectDetails() {
-    const iconArray = [Pencil,Trash];
+    const iconArray = [Pencil,Trash,Plus];
     return(
         <>
             <table style={{width: '100%', padding: '3rem', paddingBottom: '1rem'}}>
@@ -13,10 +15,10 @@ export default function ProjectDetails() {
                         </td>
                         <td style={{textAlign: 'right'}}>
                             <div style={{display: 'flex', flexDirection: 'row', width:'1.5rem', height:'1.5rem', float:'right'}}>
-                                <div style={{backgroundColor:'black', mask:`url(${iconArray[1]}) 0 0 / contain no-repeat`, width: '100%'}}/>
+                                <div className="IconButton" style={{mask:`url(${iconArray[1]}) 0 0 / contain no-repeat`}}/>
                             </div>
                             <div style={{display: 'flex', flexDirection: 'row', width:'1.5rem', height:'1.5rem', float:'right', marginInline:'.5rem'}}>
-                                <div style={{backgroundColor:'black', mask:`url(${iconArray[0]}) 0 0 / contain no-repeat`, width: '100%'}}/>
+                                <div className="IconButton" style={{mask:`url(${iconArray[0]}) 0 0 / contain no-repeat`}}/>
                             </div>
                             
                         </td>
@@ -33,20 +35,25 @@ export default function ProjectDetails() {
                 <table  style={{width: '100%', paddingInline: '3rem'}}>
                 <tbody>
                     <tr>
-                        <td>
+                        <td style={{paddingBottom: '20px'}}>
                             Project description
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <p className='ProjectTitle'>Tasks</p>
+                            <p style={{display:'inline-block'}} className='ProjectTitle'>Tasks</p> <RoundedButton iconUrl={iconArray[2]} text="Add Task" hoverColor="orangered"/>
                         </td>
                     </tr>
                     <tr>
-                        <td><Task/></td>
+                        <td>
+                            <Task/>
+                            <Task/>
+                            <Task/>
+                        </td>
                     </tr>
                 </tbody>
             </table>
+            
         </>
     );  
 }

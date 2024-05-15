@@ -23,6 +23,27 @@
 .Project{
     margin: 2rem;
 }
+.Project:hover{
+    transition: 100ms;
+    font-weight: bold;
+    transform: scale(1.1);
+}
+
+.IconButton{
+    background-color: black;
+    width: 100%;
+}
+
+.IconButton:hover{
+    background-color: orangered;
+}
+
+.IconButton:active{
+    background-color: orange;
+    transform: scale(0.8);
+}
+
+
 
 @media only screen and (max-width:1000px){
     #ProjectList {
@@ -47,6 +68,8 @@
         margin: 1rem;
         margin-top: 1.5rem;
     }
+
+   
     
     
 }

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+
+<svg
+   width="800px"
+   height="800px"
+   viewBox="0 0 512 512"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="plus.svg"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="0.485625"
+     inkscape:cx="251.22265"
+     inkscape:cy="384.04118"
+     inkscape:window-width="1920"
+     inkscape:window-height="991"
+     inkscape:window-x="2391"
+     inkscape:window-y="539"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1" />
+  <title
+     id="title1">new-indicator-filled</title>
+  <g
+     id="Page-1"
+     stroke="none"
+     stroke-width="1"
+     fill="none"
+     fill-rule="evenodd"
+     transform="matrix(1.4787645,0,0,1.4787645,-122.56371,-122.56371)">
+    <g
+       id="scheduler"
+       fill="#000000"
+       transform="translate(85.333333,85.333333)">
+      <path
+         d="m 170.66667,0 c 94.25659,0 170.66666,76.410069 170.66666,170.66667 0,94.25659 -76.41007,170.66666 -170.66666,170.66666 C 76.410069,341.33333 0,264.92326 0,170.66667 0,76.410069 76.410069,0 170.66667,0 Z M 192,85.333333 H 149.33333 V 149.33333 H 85.333333 V 192 l 63.999997,-6.7e-4 V 256 H 192 L 191.99933,191.99933 256,192 v -42.66667 h -64.00067 z"
+         id="Combined-Shape" />
+    </g>
+  </g>
+</svg>
