@@ -1,1 +1,2 @@
+close.svg - https://www.svgrepo.com/svg/510922/close-sm
 plus.svg - https://www.svgrepo.com/svg/486447/new-indicator-filled

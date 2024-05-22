@@ -3,29 +3,31 @@ import Trash from "../../assets/svg/trash.svg";
 import Plus from "../../assets/svg/plus.svg"
 import Task from "../task/Task.jsx";
 import RoundedButton from "../buttons/RoundedButton.jsx";
-export default function ProjectDetails() {
+import IconButton from "../buttons/IconButton.jsx";
+import Popup from "../popup/Popup.jsx";
+import { useState } from "react";
+
+export default function ProjectDetails( projectObj=null) {
+    const [popupIsShowing, setPopupIsShowing]=useState(false);
     const iconArray = [Pencil,Trash,Plus];
+    const prjData = projectObj.projectObj;
+
     return(
         <>
             <table style={{width: '100%', padding: '3rem', paddingBottom: '1rem'}}>
                 <thead>
                     <tr>
                         <td>
-                            <p className='ProjectTitle'>Project title goes here</p>
+                            <p className='ProjectTitle'>{prjData.name}</p>
                         </td>
                         <td style={{textAlign: 'right'}}>
-                            <div style={{display: 'flex', flexDirection: 'row', width:'1.5rem', height:'1.5rem', float:'right'}}>
-                                <div className="IconButton" style={{mask:`url(${iconArray[1]}) 0 0 / contain no-repeat`}}/>
-                            </div>
-                            <div style={{display: 'flex', flexDirection: 'row', width:'1.5rem', height:'1.5rem', float:'right', marginInline:'.5rem'}}>
-                                <div className="IconButton" style={{mask:`url(${iconArray[0]}) 0 0 / contain no-repeat`}}/>
-                            </div>
-                            
+                            <IconButton iconUrl={iconArray[1]}/>
+                            <IconButton iconUrl={iconArray[0]}/>
                         </td>
                     </tr>
                     <tr>
                         <td colSpan="2">
-                        Date
+                        {prjData.date}
                         <hr/>
                         </td>
                     </tr>
@@ -36,23 +38,29 @@ export default function ProjectDetails() {
                 <tbody>
                     <tr>
                         <td style={{paddingBottom: '20px'}}>
-                            Project description
+                            {prjData.description}
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <p style={{display:'inline-block'}} className='ProjectTitle'>Tasks</p> <RoundedButton iconUrl={iconArray[2]} text="Add Task" hoverColor="orangered"/>
+                            <p style={{display:'inline-block', marginInlineEnd:'1rem'}} className='ProjectTitle'>Tasks</p> 
+                            <RoundedButton iconUrl={iconArray[2]} text="Add Task" buttonFunction={()=>setPopupIsShowing(true)}/>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <Task/>
-                            <Task/>
-                            <Task/>
+                            {
+                                prjData.Tasks.map((task) => {
+                                    return (
+                                        <Task key={task.key} description={task.task} taskState={task.status}/>
+                                    )})
+                            }
                         </td>
                     </tr>
                 </tbody>
             </table>
+            {popupIsShowing && 
+            <Popup closePopup={()=>setPopupIsShowing(false)}/>}
             
         </>
     );  

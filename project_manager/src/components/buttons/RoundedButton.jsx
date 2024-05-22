@@ -5,21 +5,19 @@ function defaultFunction(){
 }
 
 
-export default function RoundedButton({iconUrl=null, iconColor=null, text='Rounded Button', backgroundColor='black', textcolor='white', hoverColor='gray', buttonFunction=defaultFunction, ...props}){    
+export default function RoundedButton({iconUrl=null, iconColor=null, text='Rounded Button', backgroundColor='black', textcolor='white', hoverColor='orangered', clickColor='orange', buttonFunction=defaultFunction, ...props}){    
     const[isHovered, setIsHovered] = useState(backgroundColor);
-    let textMargin = ()=>{
-        if(iconUrl!=null){
-            return('.5rem');
-        }
-        return('0rem');
-    };
 
-    function handleMouseEnter(){
+    function handleOnMouseEnter(){
         setIsHovered(hoverColor);
     }
 
-    function handleMouseLeave(){
+    function handleOnMouseLeave(){
         setIsHovered(backgroundColor);
+    }
+
+    function handleOnMouseDown(){
+        setIsHovered(clickColor);
     }
 
     return(
@@ -35,10 +33,14 @@ export default function RoundedButton({iconUrl=null, iconColor=null, text='Round
             color:textcolor, 
             padding:'.6rem .6rem', 
             borderRadius:'30px', 
-            margin:'1rem',
-            display: 'inline-block'}} 
-        onMouseEnter={handleMouseEnter} 
-        onMouseLeave={handleMouseLeave} 
+            display: 'inline-block',
+            transition: '100ms',
+            transform: isHovered == clickColor ? 'scale(0.95)': 'scale(1)',
+        }} 
+        onMouseEnter={handleOnMouseEnter} 
+        onMouseLeave={handleOnMouseLeave}
+        onMouseDown={handleOnMouseDown}
+        onMouseUp={handleOnMouseEnter}
         onClick={buttonFunction}>
 
             {/*Conditionally rendering button icon*/}

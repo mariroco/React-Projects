@@ -1,10 +1,19 @@
 import './Project.css';
-export default function Task(){
-    const dummyProjects = []
-    for (let i=0;i<30;i++) {
-        dummyProjects.push(<p key={'prj'+i} className='Project'>Dummy Project {i+1}</p>);
-    };
+import {useState} from 'react';
+
+export default function Project({projectName, clickFunction=null, selected}){
+    const[isSelected, setIsSelected] = useState(false);
+
+    function handleProject() {
+        if(clickFunction != null){
+            clickFunction();
+        }else{
+            console.log(projectName+"'s 'clickFunction' prop is undefined");
+        }
+    }
+
+
     return(
-        dummyProjects
+        <p className='Project' style={selected ? {transform:'scale(1.1)', fontWeight:'bold',marginInline:'4rem'}:{}} onClick={handleProject}>{projectName}</p>     
     );
 }
