@@ -5,7 +5,7 @@ import RoundedTextInput from '../inputs/RoundedTextInput.jsx';
 import RoundedButton from '../buttons/RoundedButton.jsx';
 import './Task.css';
 
-export default function Task({description='Here goes the task description.', taskState=false}){
+export default function Task({description='Here goes the task description.', taskState=false, deleteThis}){
     const closeIcon = CloseIcon;
     const [taskIsDone, setTaskIsDone] = useState(taskState);
 
@@ -22,7 +22,7 @@ export default function Task({description='Here goes the task description.', tas
                 <div style={{textAlign:'center', verticalAlign:'middle'}}>
                     <input className='checkBox' type="checkbox" style={{marginTop: '1rem'}} onClick={handleOnClick} defaultChecked={taskIsDone} /> 
                 </div>
-                <div style={{marginTop: '.8rem'}}><IconButton iconUrl={closeIcon}/></div>
+                <div style={{marginTop: '.8rem'}}><IconButton iconUrl={closeIcon} buttonFunction={deleteThis}/></div>
                 
             </div>
             

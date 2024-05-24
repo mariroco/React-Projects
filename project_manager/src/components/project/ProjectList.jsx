@@ -13,9 +13,8 @@ export default function ProjectList(){
     //Usar un useref para manipular datos del arreglo de projectos
     const [selectedProjectIndex, setSelectedProjectIndex] = useState(null);
     const [showPopup, setShowPopup] = useState(false);
-
     const _projectList = useRef(dummyProjects);
-    //console.log(_projectList.current);
+
     
     function getProjectIndexByKey(projectKey){
         for(var i=0; i<_projectList.current.length; i++){
@@ -58,15 +57,51 @@ export default function ProjectList(){
             _projectList.current.push(newProject);
     }
 
-    function deleteProjectFromListByKey(projectKey){
+    function deleteProjectTask(taskKey){
+        const tempTasks =[];
+        let taskIndex;
+        for(var i=0; i<_projectList.current[selectedProjectIndex].Tasks.length;i++){
+            if(_projectList.current[selectedProjectIndex].Tasks[i].key==taskKey){
+                taskIndex = i;
+            }
+        }
+
+        for(var i=0; i<_projectList.current[selectedProjectIndex].Tasks.length;i++){
+            if(taskIndex != i){
+                tempTasks.push(_projectList.current[selectedProjectIndex].Tasks[i])
+            }
+        }
+
+        _projectList.current[selectedProjectIndex].Tasks.splice(taskIndex,1);
+        return(tempTasks);
+
         
+    }
+
+    function addProjectTask(projectKey, description){
+        console.log(projectKey+' '+description);
+        const taskList = _projectList.current[selectedProjectIndex].Tasks;
+        const lastTask = taskList[taskList.length-1];
+
+        const newTask = {
+            "key": projectKey+'pr'+(parseInt(lastTask.key2)+1)+'t',
+            "key2": lastTask.key2+1,
+            "task":description,
+            "status":false
+        };
+
+        return (_projectList.current[selectedProjectIndex].Tasks.push(newTask));
+    }
+
+    function updateProjectTaskStatus(taskKey){}
+
+    function deleteProjectFromListByKey(projectKey){
         const tempArray = [];
         for(var i=0; i<_projectList.current.length; i++){
             if(_projectList.current[i].key != projectKey){
                 tempArray.push(_projectList.current[i]);
             }
         }
-        console.log(tempArray);
         _projectList.current= tempArray;
         setSelectedProjectIndex(null);
     }
@@ -99,10 +134,13 @@ export default function ProjectList(){
             
         </div>
         <div id='contentArea'>
-            {selectedProjectIndex != undefined ? 
+            {selectedProjectIndex != undefined ?
             <ProjectDetails 
             projectObj={_projectList.current[selectedProjectIndex]}
-            deleteThisFunction={()=>deleteProjectFromListByKey(_projectList.current[selectedProjectIndex].key)}/> 
+            taskList={_projectList.current[selectedProjectIndex].Tasks}
+            deleteThis={()=>deleteProjectFromListByKey(_projectList.current[selectedProjectIndex].key)}
+            deleteTask={deleteProjectTask}
+            addTask={addProjectTask}/> 
             : <WelcomePage/>
             }
                 

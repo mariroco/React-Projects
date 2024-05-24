@@ -5,11 +5,18 @@ import Task from "../task/Task.jsx";
 import RoundedButton from "../buttons/RoundedButton.jsx";
 import IconButton from "../buttons/IconButton.jsx";
 import Popup from "../popup/Popup.jsx";
-import { useState } from "react";
+import { useState, useRef } from "react";
 
-export default function ProjectDetails({projectObj, deleteThisFunction}) {
-    const [popupIsShowing, setPopupIsShowing]=useState(false);
+export default function ProjectDetails({projectObj, deleteThis, deleteTask, addTask}) {
+    const [showPopup, setShowPopup]=useState(false);
+    const [tasks, setTasks] = useState(projectObj.Tasks);
+        
     const iconArray = [Pencil,Trash,Plus];
+
+    function deleteThisTask(taskKey){
+        setTasks( deleteTask(taskKey));
+    }
+
     return(
         <>
             <table style={{width: '100%', padding: '3rem', paddingBottom: '1rem'}}>
@@ -21,8 +28,9 @@ export default function ProjectDetails({projectObj, deleteThisFunction}) {
                         <td style={{textAlign: 'right'}}>
                             <IconButton 
                                 iconUrl={iconArray[1]} 
-                                buttonFunction={deleteThisFunction}/>
-                            <IconButton iconUrl={iconArray[0]}/>
+                                buttonFunction={deleteThis}/>
+                            <IconButton 
+                                iconUrl={iconArray[0]}/>
                         </td>
                     </tr>
                     <tr>
@@ -44,7 +52,7 @@ export default function ProjectDetails({projectObj, deleteThisFunction}) {
                     <tr>
                         <td>
                             <p style={{display:'inline-block', marginInlineEnd:'1rem'}} className='ProjectTitle'>Tasks</p> 
-                            <RoundedButton iconUrl={iconArray[2]} text="Add Task" buttonFunction={()=>setPopupIsShowing(true)}/>
+                            <RoundedButton iconUrl={iconArray[2]} text="Add Task" buttonFunction={()=>setShowPopup(true)}/>
                         </td>
                     </tr>
                     <tr>
@@ -52,16 +60,46 @@ export default function ProjectDetails({projectObj, deleteThisFunction}) {
                             {
                                 projectObj.Tasks.map((task) => {
                                     return (
-                                        <Task key={task.key} description={task.task} taskState={task.status}/>
+                                        <Task key={task.key} description={task.task} taskState={task.status} deleteThis={()=>deleteThisTask(task.key)}/>
                                     )})
                             }
                         </td>
                     </tr>
                 </tbody>
             </table>
-            {popupIsShowing && 
-            <Popup closePopup={()=>setPopupIsShowing(false)}/>}
+            {showPopup && 
+                <Popup closePopup={()=> setShowPopup(false)} title="Add new task">
+                    <TaskForm btnFunction={addTask} projectKey={projectObj.key} closeForm={()=>setShowPopup(false)}/>
+                </Popup>}
             
         </>
     );  
+}
+
+function TaskForm({btnFunction, projectKey, closeForm}){
+    
+    const descriptionRef = useRef(null);
+
+    function handleSubmit(){
+        const taskDesc=descriptionRef.current.value;
+        btnFunction(projectKey, taskDesc);
+        closeForm();
+    }
+
+    return(
+        <>
+        <div style={{width:'100%', textAlign:'center', display:'flex'}}>
+            <input 
+            ref={descriptionRef}  
+            maxLength="60" 
+            type='text' 
+            placeholder='Write your task here...'
+            style={{fontFamily:'"Merriweather", serif', borderRadius:'30px', padding:'.7rem', width:'100%', borderWidth:'1px'}}/>
+        </div>
+    
+        <div style={{textAlign:'right', margin:'.5rem 0rem .5rem 0rem'}}>
+        <RoundedButton text='Submit' buttonFunction={handleSubmit}/>
+        </div>
+        </>
+    );
 }

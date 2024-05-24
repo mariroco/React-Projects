@@ -7,16 +7,19 @@ export const dummyProjects= [
         "Tasks":[
             {
                 "key":'1pr0t',
+                "key2":0,
                 "task":"Create json",
                 "status": true
             },
             {
                 "key":'1pr1t',
+                "key2":1,
                 "task":"Check json",
                 "status": true
             },
             {
                 "key":'1pr2t',
+                "key2":2,
                 "task":"Delete json",
                 "status": false
             }
@@ -30,6 +33,7 @@ export const dummyProjects= [
         "Tasks":[
             {
                 "key":'2pr0t',
+                "key2":0,
                 "task":"Second project task",
                 "status": false
             }
@@ -44,16 +48,19 @@ export const dummyProjects= [
         "Tasks":[
             {
                 "key":'3pr0t',
+                "key2":0,
                 "task":"1st project",
                 "status": true
             },
             {
                 "key":'3pr1t',
+                "key2":1,
                 "task":"2nd project",
                 "status": false
             },
             {
                 "key":'3pr2t',
+                "key2":2,
                 "task":"3rd project",
                 "status": false
             }
