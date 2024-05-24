@@ -1,7 +1,13 @@
 
 import { useState } from "react";
 
-export default function IconButton({iconUrl='../../../public/management.svg', iconColor='black', hoverColor='orangered', clickColor='orange', buttonFunction=null}){
+export default function IconButton({
+    iconUrl='../../../public/management.svg', 
+    iconColor='black', 
+    hoverColor='orangered', 
+    clickColor='orange', 
+    buttonFunction=undefined}){
+
     const[isHovered, setIsHovered] = useState(iconColor);
 
     function handleOnMouseEnter(){
@@ -16,13 +22,11 @@ export default function IconButton({iconUrl='../../../public/management.svg', ic
         setIsHovered(clickColor);
     }
 
-
-    function handleOnClick(){
-        
-        if(buttonFunction==null){
-            console.log("'buttonFunction' prop is undefined on the <IconButton/> component. This is a default function.");
-        }else{
+    function handleClick(){
+        if(buttonFunction!=undefined){
             buttonFunction();
+        }else{
+            console.log("'buttonFunction' prop is undefined on the <IconButton/> component. This is a default function.");
         }
     }
 
@@ -47,7 +51,7 @@ export default function IconButton({iconUrl='../../../public/management.svg', ic
         onMouseLeave={handleOnMouseLeave}
         onMouseDown={handleOnMouseDown}
         onMouseUp={handleOnMouseEnter}
-        onClick={handleOnClick}>
+        onClick={handleClick}>
             <div style={{mask:`url(${iconUrl}) 0 0 / contain no-repeat`, width:'100%', backgroundColor:isHovered}}/>
         </div>
         </>

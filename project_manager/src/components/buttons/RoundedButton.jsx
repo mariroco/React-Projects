@@ -1,11 +1,15 @@
 import { useState } from "react";
 
-function defaultFunction(){
-    console.log("'buttonFunction' prop is undefined on the <RoundedButton/> component. This is a default function.")
-}
+export default function RoundedButton({
+    iconUrl=null, 
+    iconColor=null, 
+    text='Rounded Button', 
+    backgroundColor='black', 
+    textcolor='white', 
+    hoverColor='orangered', 
+    clickColor='orange', 
+    buttonFunction=undefined}){    
 
-
-export default function RoundedButton({iconUrl=null, iconColor=null, text='Rounded Button', backgroundColor='black', textcolor='white', hoverColor='orangered', clickColor='orange', buttonFunction=defaultFunction, ...props}){    
     const[isHovered, setIsHovered] = useState(backgroundColor);
 
     function handleOnMouseEnter(){
@@ -18,6 +22,14 @@ export default function RoundedButton({iconUrl=null, iconColor=null, text='Round
 
     function handleOnMouseDown(){
         setIsHovered(clickColor);
+    }
+
+    function handleClick(){
+        if(buttonFunction!=undefined){
+            buttonFunction();
+        }else{
+            console.log("'buttonFunction' prop is undefined on the <RoundedButton/> component. This is a default function.")
+        }
     }
 
     return(
@@ -41,7 +53,7 @@ export default function RoundedButton({iconUrl=null, iconColor=null, text='Round
         onMouseLeave={handleOnMouseLeave}
         onMouseDown={handleOnMouseDown}
         onMouseUp={handleOnMouseEnter}
-        onClick={buttonFunction}>
+        onClick={handleClick}>
 
             {/*Conditionally rendering button icon*/}
             {iconUrl && 

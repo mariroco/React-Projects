@@ -7,27 +7,27 @@ import IconButton from "../buttons/IconButton.jsx";
 import Popup from "../popup/Popup.jsx";
 import { useState } from "react";
 
-export default function ProjectDetails( projectObj=null) {
+export default function ProjectDetails({projectObj, deleteThisFunction}) {
     const [popupIsShowing, setPopupIsShowing]=useState(false);
     const iconArray = [Pencil,Trash,Plus];
-    const prjData = projectObj.projectObj;
-
     return(
         <>
             <table style={{width: '100%', padding: '3rem', paddingBottom: '1rem'}}>
                 <thead>
                     <tr>
                         <td>
-                            <p className='ProjectTitle'>{prjData.name}</p>
+                            <p className='ProjectTitle'>{projectObj.name}</p>
                         </td>
                         <td style={{textAlign: 'right'}}>
-                            <IconButton iconUrl={iconArray[1]}/>
+                            <IconButton 
+                                iconUrl={iconArray[1]} 
+                                buttonFunction={deleteThisFunction}/>
                             <IconButton iconUrl={iconArray[0]}/>
                         </td>
                     </tr>
                     <tr>
                         <td colSpan="2">
-                        {prjData.date}
+                        {projectObj.date}
                         <hr/>
                         </td>
                     </tr>
@@ -38,7 +38,7 @@ export default function ProjectDetails( projectObj=null) {
                 <tbody>
                     <tr>
                         <td style={{paddingBottom: '20px'}}>
-                            {prjData.description}
+                            {projectObj.description}
                         </td>
                     </tr>
                     <tr>
@@ -50,7 +50,7 @@ export default function ProjectDetails( projectObj=null) {
                     <tr>
                         <td>
                             {
-                                prjData.Tasks.map((task) => {
+                                projectObj.Tasks.map((task) => {
                                     return (
                                         <Task key={task.key} description={task.task} taskState={task.status}/>
                                     )})
