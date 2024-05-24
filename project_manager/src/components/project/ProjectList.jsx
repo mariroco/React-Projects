@@ -13,6 +13,8 @@ export default function ProjectList(){
     //Usar un useref para manipular datos del arreglo de projectos
     const [selectedProjectIndex, setSelectedProjectIndex] = useState(null);
     const [showPopup, setShowPopup] = useState(false);
+    const [showEditPopup,setShowEditPopup]=useState(false);
+
     const _projectList = useRef(dummyProjects);
 
     
@@ -57,6 +59,49 @@ export default function ProjectList(){
             _projectList.current.push(newProject);
     }
 
+    function deleteProjectFromListByKey(projectKey){
+        const tempArray = [];
+        for(var i=0; i<_projectList.current.length; i++){
+            if(_projectList.current[i].key != projectKey){
+                tempArray.push(_projectList.current[i]);
+            }
+        }
+        _projectList.current= tempArray;
+        setSelectedProjectIndex(null);
+    }
+
+    function updateProject(project){
+        const prevProject = _projectList.current[selectedProjectIndex];
+        const updatedProject = {
+            "key":prevProject.key,
+            "name":project.name,
+            "date":project.date,
+            "description":project.description,
+            "Tasks":prevProject.Tasks
+        };
+        _projectList.current[selectedProjectIndex] = updatedProject;
+    }
+
+    function addProjectTask(projectKey, description){
+        const taskList = _projectList.current[selectedProjectIndex].Tasks;
+
+        let lastTaskKey;
+        if(taskList.length>0){
+            lastTaskKey = taskList[taskList.length-1].key2; 
+        }else{
+            lastTaskKey = 0;
+        }
+        
+        const newTask = {
+            "key": projectKey+'pr'+(parseInt(lastTaskKey)+1)+'t',
+            "key2": lastTaskKey+1,
+            "task":description,
+            "status":false
+        };
+
+        return (_projectList.current[selectedProjectIndex].Tasks.push(newTask));
+    }
+
     function deleteProjectTask(taskKey){
         const tempTasks =[];
         let taskIndex;
@@ -78,33 +123,15 @@ export default function ProjectList(){
         
     }
 
-    function addProjectTask(projectKey, description){
-        console.log(projectKey+' '+description);
-        const taskList = _projectList.current[selectedProjectIndex].Tasks;
-        const lastTask = taskList[taskList.length-1];
-
-        const newTask = {
-            "key": projectKey+'pr'+(parseInt(lastTask.key2)+1)+'t',
-            "key2": lastTask.key2+1,
-            "task":description,
-            "status":false
-        };
-
-        return (_projectList.current[selectedProjectIndex].Tasks.push(newTask));
-    }
-
-    function updateProjectTaskStatus(taskKey){}
-
-    function deleteProjectFromListByKey(projectKey){
-        const tempArray = [];
-        for(var i=0; i<_projectList.current.length; i++){
-            if(_projectList.current[i].key != projectKey){
-                tempArray.push(_projectList.current[i]);
+    function updateProjectTaskStatus(taskKey){
+        _projectList.current[selectedProjectIndex].Tasks.forEach(element => {
+            if(element.key == taskKey){
+                element.status = !element.status;
             }
-        }
-        _projectList.current= tempArray;
-        setSelectedProjectIndex(null);
+        });
+
     }
+
 
     function isThisProjectSelected(projectKey){
         return(getProjectIndexByKey(projectKey) === selectedProjectIndex);
@@ -136,15 +163,19 @@ export default function ProjectList(){
         <div id='contentArea'>
             {selectedProjectIndex != undefined ?
             <ProjectDetails 
-            projectObj={_projectList.current[selectedProjectIndex]}
-            taskList={_projectList.current[selectedProjectIndex].Tasks}
-            deleteThis={()=>deleteProjectFromListByKey(_projectList.current[selectedProjectIndex].key)}
-            deleteTask={deleteProjectTask}
-            addTask={addProjectTask}/> 
+                projectObj={_projectList.current[selectedProjectIndex]}
+                editProject={()=> setShowEditPopup(true)}
+                taskList={_projectList.current[selectedProjectIndex].Tasks}
+                deleteThis={()=>deleteProjectFromListByKey(_projectList.current[selectedProjectIndex].key)}
+                deleteTask={deleteProjectTask}
+                addTask={addProjectTask}
+                updateTaskStatus={updateProjectTaskStatus}
+                /> 
             : <WelcomePage/>
             }
                 
         </div>
+        {showEditPopup && <Popup closePopup={()=> setShowEditPopup(false)} title='Edit project' ><EditProjectForm btnFunction={updateProject} closeForm={()=>setShowEditPopup(false)} project={_projectList.current[selectedProjectIndex]}/></Popup>}
         {showPopup && <Popup closePopup={()=> setShowPopup(false)} title='Create a new project' ><ProjectForm btnFunction={addNewProjectToList} closeForm={()=>setShowPopup(false)}/></Popup>}
         </>
     );
@@ -188,6 +219,61 @@ function ProjectForm({btnFunction, closeForm}){
     <div style={{width:'100%', textAlign:'center', display:'flex', marginBottom:'.5rem'}}>
         <textarea ref={descriptionRef} placeholder='Project description' style={{fontFamily:'"Merriweather", serif',borderRadius:'25px', padding:'1rem', width:'100%', resize:'none', height:'6rem'}}/>
     </div>
+    <div style={{textAlign:'right', margin:'.5rem 0rem .5rem 0rem'}}>
+    <RoundedButton text='Submit' buttonFunction={handleSubmit}/>
+    </div>
+    </>);
+}
+
+function EditProjectForm({btnFunction, closeForm, project}){
+    const [usedChars, setUsedChars] = useState(project.name.length);
+    const nameRef = useRef(project.name);
+    const dateRef = useRef(project.date);
+    const descriptionRef = useRef(project.description);
+
+    function handleSubmit(){
+        if(nameRef.current.value.trim() != '' && dateRef.current.value.trim() != '' && descriptionRef.current.value.trim() != ''){
+             const project = {
+                "name": nameRef.current.value,
+                "date": dateRef.current.value,
+                "description":descriptionRef.current.value 
+             }
+            btnFunction(project);
+            closeForm();
+        }else{
+            alert('Please check if there are any empty datafields');
+        }
+    }
+
+    function handleOnChange(e){
+        setUsedChars(e.target.value.length);
+    }
+
+    return(
+    <>
+    <div style={{width:'100%', textAlign:'center', display:'flex'}}>
+        <input 
+        ref={nameRef} 
+        defaultValue={project.name}
+        maxLength="60" 
+        type='text' 
+        placeholder='Project name' 
+        onChange={(e)=>handleOnChange(e)}
+        style={{fontFamily:'"Merriweather", serif', borderRadius:'30px', padding:'.7rem', width:'100%', borderWidth:'1px'}}/>
+    </div>
+    <p style={{float:'right', fontSize:'10px', color:'orangered'}}>Used {usedChars} out of 60 characters.</p>
+
+
+    <div style={{width:'100%', textAlign:'right', display:'flex', marginBottom:'1rem'}}>
+    <input ref={dateRef} defaultValue={project.date} type='date' style={{fontFamily:'"Merriweather", serif',borderRadius:'30px', padding:'.7rem', width:'100%', borderWidth:'1px', borderColor:'orange'}}/>
+    </div>
+
+
+    <div style={{width:'100%', textAlign:'center', display:'flex', marginBottom:'.5rem'}}>
+        <textarea ref={descriptionRef} defaultValue={project.description} placeholder='Project description' style={{fontFamily:'"Merriweather", serif',borderRadius:'25px', padding:'1rem', width:'100%', resize:'none', height:'6rem'}}/>
+    </div>
+
+
     <div style={{textAlign:'right', margin:'.5rem 0rem .5rem 0rem'}}>
     <RoundedButton text='Submit' buttonFunction={handleSubmit}/>
     </div>

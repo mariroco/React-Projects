@@ -2,7 +2,7 @@ export const dummyProjects= [
     {
         "key":0,
         "name":"Project 1",
-        "date":"01/01/2024",
+        "date":"2024-05-05",
         "description":"This is the first project dummy on a Json file!",
         "Tasks":[
             {
@@ -28,7 +28,7 @@ export const dummyProjects= [
     {
         "key":1,
         "name":"Project 2",
-        "date":"02/02/2024",
+        "date":"2024-02-02",
         "description":"This is the second project dummy on a Json file!",
         "Tasks":[
             {
@@ -43,7 +43,7 @@ export const dummyProjects= [
         
         "key":2,
         "name":"Project name 3",
-        "date":"03/03/2024",
+        "date":"2024-03-03",
         "description":"This is the third project dummy on a Json file!",
         "Tasks":[
             {

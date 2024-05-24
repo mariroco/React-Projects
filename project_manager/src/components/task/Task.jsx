@@ -1,16 +1,17 @@
-import { useState } from 'react';
+import { Children, useState } from 'react';
 import IconButton from '../buttons/IconButton.jsx';
 import CloseIcon from '../../assets/svg/close.svg';
 import RoundedTextInput from '../inputs/RoundedTextInput.jsx';
 import RoundedButton from '../buttons/RoundedButton.jsx';
 import './Task.css';
 
-export default function Task({description='Here goes the task description.', taskState=false, deleteThis}){
+export default function Task({description='Here goes the task description.', taskState=false, deleteThis, onChecked}){
     const closeIcon = CloseIcon;
     const [taskIsDone, setTaskIsDone] = useState(taskState);
 
     function handleOnClick(){
         setTaskIsDone((taskIsDone)=>!taskIsDone)
+        onChecked();
     }
 
     return(

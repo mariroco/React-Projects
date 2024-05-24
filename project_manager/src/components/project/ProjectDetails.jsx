@@ -7,7 +7,7 @@ import IconButton from "../buttons/IconButton.jsx";
 import Popup from "../popup/Popup.jsx";
 import { useState, useRef } from "react";
 
-export default function ProjectDetails({projectObj, deleteThis, deleteTask, addTask}) {
+export default function ProjectDetails({projectObj, editProject, deleteThis, deleteTask, addTask, updateTaskStatus}) {
     const [showPopup, setShowPopup]=useState(false);
     const [tasks, setTasks] = useState(projectObj.Tasks);
         
@@ -30,7 +30,8 @@ export default function ProjectDetails({projectObj, deleteThis, deleteTask, addT
                                 iconUrl={iconArray[1]} 
                                 buttonFunction={deleteThis}/>
                             <IconButton 
-                                iconUrl={iconArray[0]}/>
+                                iconUrl={iconArray[0]}
+                                buttonFunction={editProject}/>
                         </td>
                     </tr>
                     <tr>
@@ -60,7 +61,12 @@ export default function ProjectDetails({projectObj, deleteThis, deleteTask, addT
                             {
                                 projectObj.Tasks.map((task) => {
                                     return (
-                                        <Task key={task.key} description={task.task} taskState={task.status} deleteThis={()=>deleteThisTask(task.key)}/>
+                                        <Task 
+                                        key={task.key} 
+                                        description={task.task} 
+                                        taskState={task.status} 
+                                        deleteThis={()=>deleteThisTask(task.key)}
+                                        onChecked={()=>updateTaskStatus(task.key)}/>
                                     )})
                             }
                         </td>
@@ -82,8 +88,12 @@ function TaskForm({btnFunction, projectKey, closeForm}){
 
     function handleSubmit(){
         const taskDesc=descriptionRef.current.value;
+        if(taskDesc.trim() != ''){
         btnFunction(projectKey, taskDesc);
         closeForm();
+        }else{
+            alert('Please fill the task description field');
+        }
     }
 
     return(
