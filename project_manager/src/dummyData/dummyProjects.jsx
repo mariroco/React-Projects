@@ -4,6 +4,7 @@ export const dummyProjects= [
         "name":"Project 1",
         "date":"2024-05-05",
         "description":"This is the first project dummy on a Json file!",
+        "isShowing": true,
         "Tasks":[
             {
                 "key":'1pr0t',
@@ -30,6 +31,7 @@ export const dummyProjects= [
         "name":"Project 2",
         "date":"2024-02-02",
         "description":"This is the second project dummy on a Json file!",
+        "isShowing": true,
         "Tasks":[
             {
                 "key":'2pr0t',
@@ -45,6 +47,7 @@ export const dummyProjects= [
         "name":"Project name 3",
         "date":"2024-03-03",
         "description":"This is the third project dummy on a Json file!",
+        "isShowing": true,
         "Tasks":[
             {
                 "key":'3pr0t',

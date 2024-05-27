@@ -6,28 +6,21 @@ import Popup from '../popup/Popup.jsx';
 
 import {useState, useRef} from 'react';
 
-//Dummy data
-import { dummyProjects } from "../../dummyData/dummyProjects.jsx";
-
-export default function ProjectList(){
-    //Usar un useref para manipular datos del arreglo de projectos
+export default function ProjectList({projectList}){
     const [selectedProjectIndex, setSelectedProjectIndex] = useState(null);
     const [showPopup, setShowPopup] = useState(false);
     const [showEditPopup,setShowEditPopup]=useState(false);
 
-    const _projectList = useRef(dummyProjects);
-
-    
     function getProjectIndexByKey(projectKey){
-        for(var i=0; i<_projectList.current.length; i++){
-            if(_projectList.current[i].key == projectKey){
+        for(var i=0; i<projectList.length; i++){
+            if(projectList[i].key == projectKey){
                 return(i);
             }}
     }
 
     function setSelectedProjectIndexByKey(projectKey){
-        for(var i=0; i<_projectList.current.length; i++){
-            if(_projectList.current[i].key == projectKey){
+        for(var i=0; i<projectList.length; i++){
+            if(projectList[i].key == projectKey){
                 if(selectedProjectIndex === i){
                     setSelectedProjectIndex(null);
                 }else{
@@ -40,50 +33,55 @@ export default function ProjectList(){
     }
 
     function addNewProjectToList(name, date, description){
-        const newProjectKey = () => {
-            if(_projectList.current.length==0){
-                return(0);
-            }else{
-                return (_projectList.current[_projectList.current.length-1].key+1);
-            }
-        };
+        let newProjectKey;
+        if(projectList.length==0){
+            newProjectKey = 0;
+        }else{
+            newProjectKey = projectList[projectList.length-1].key+1;
+        }
+        
+
+        console.log(newProjectKey);
+
         const newProject =
             {
                 "key":newProjectKey,
                 "name": name,
                 "date": date,
                 "description": description,
+                "isShowing": true,
                 "Tasks": []
             };
 
-            _projectList.current.push(newProject);
+            projectList.push(newProject);
     }
 
     function deleteProjectFromListByKey(projectKey){
         const tempArray = [];
-        for(var i=0; i<_projectList.current.length; i++){
-            if(_projectList.current[i].key != projectKey){
-                tempArray.push(_projectList.current[i]);
+        for(var i=0; i<projectList.length; i++){
+            if(projectList[i].key == projectKey){
+                projectList.splice(i,1);
             }
         }
-        _projectList.current= tempArray;
+        console.log(projectList);
         setSelectedProjectIndex(null);
     }
 
     function updateProject(project){
-        const prevProject = _projectList.current[selectedProjectIndex];
+        const prevProject = projectList[selectedProjectIndex];
         const updatedProject = {
             "key":prevProject.key,
             "name":project.name,
             "date":project.date,
             "description":project.description,
+            "isShowing": true,
             "Tasks":prevProject.Tasks
         };
-        _projectList.current[selectedProjectIndex] = updatedProject;
+        projectList[selectedProjectIndex] = updatedProject;
     }
 
     function addProjectTask(projectKey, description){
-        const taskList = _projectList.current[selectedProjectIndex].Tasks;
+        const taskList = projectList[selectedProjectIndex].Tasks;
 
         let lastTaskKey;
         if(taskList.length>0){
@@ -99,39 +97,38 @@ export default function ProjectList(){
             "status":false
         };
 
-        return (_projectList.current[selectedProjectIndex].Tasks.push(newTask));
+        return (projectList[selectedProjectIndex].Tasks.push(newTask));
     }
 
     function deleteProjectTask(taskKey){
         const tempTasks =[];
         let taskIndex;
-        for(var i=0; i<_projectList.current[selectedProjectIndex].Tasks.length;i++){
-            if(_projectList.current[selectedProjectIndex].Tasks[i].key==taskKey){
+        for(var i=0; i<projectList[selectedProjectIndex].Tasks.length;i++){
+            if(projectList[selectedProjectIndex].Tasks[i].key==taskKey){
                 taskIndex = i;
             }
         }
 
-        for(var i=0; i<_projectList.current[selectedProjectIndex].Tasks.length;i++){
+        for(var i=0; i<projectList[selectedProjectIndex].Tasks.length;i++){
             if(taskIndex != i){
-                tempTasks.push(_projectList.current[selectedProjectIndex].Tasks[i])
+                tempTasks.push(projectList[selectedProjectIndex].Tasks[i])
             }
         }
 
-        _projectList.current[selectedProjectIndex].Tasks.splice(taskIndex,1);
+        projectList[selectedProjectIndex].Tasks.splice(taskIndex,1);
         return(tempTasks);
 
         
     }
 
     function updateProjectTaskStatus(taskKey){
-        _projectList.current[selectedProjectIndex].Tasks.forEach(element => {
+        projectList[selectedProjectIndex].Tasks.forEach(element => {
             if(element.key == taskKey){
                 element.status = !element.status;
             }
         });
 
     }
-
 
     function isThisProjectSelected(projectKey){
         return(getProjectIndexByKey(projectKey) === selectedProjectIndex);
@@ -146,14 +143,17 @@ export default function ProjectList(){
                 </div>
                 <div className="custom-scrollbar" id='ProjectList'>
                 {
-                    _projectList.current.map((project) => {
-                    return (
-                         <Project 
-                         projectName={project.name} 
-                         key={'prj'+project.key} 
-                         clickFunction={()=>setSelectedProjectIndexByKey(project.key)}
-                         selected={()=> isThisProjectSelected(project.key)}/>
-                    );})
+                    projectList.map((project) => {
+                        if(project.isShowing){
+                            return (
+                                <Project 
+                                projectName={project.name} 
+                                key={'prj'+project.key} 
+                                clickFunction={()=>setSelectedProjectIndexByKey(project.key)}
+                                selected={()=> isThisProjectSelected(project.key)}/>
+                           );}
+                        }
+                    )
                 }
                     
             </div>
@@ -161,12 +161,12 @@ export default function ProjectList(){
             
         </div>
         <div id='contentArea'>
-            {selectedProjectIndex != undefined ?
+            {selectedProjectIndex != undefined && projectList[selectedProjectIndex].isShowing == true ?
             <ProjectDetails 
-                projectObj={_projectList.current[selectedProjectIndex]}
+                projectObj={projectList[selectedProjectIndex]}
                 editProject={()=> setShowEditPopup(true)}
-                taskList={_projectList.current[selectedProjectIndex].Tasks}
-                deleteThis={()=>deleteProjectFromListByKey(_projectList.current[selectedProjectIndex].key)}
+                taskList={projectList[selectedProjectIndex].Tasks}
+                deleteThis={()=>deleteProjectFromListByKey(projectList[selectedProjectIndex].key)}
                 deleteTask={deleteProjectTask}
                 addTask={addProjectTask}
                 updateTaskStatus={updateProjectTaskStatus}
@@ -175,7 +175,7 @@ export default function ProjectList(){
             }
                 
         </div>
-        {showEditPopup && <Popup closePopup={()=> setShowEditPopup(false)} title='Edit project' ><EditProjectForm btnFunction={updateProject} closeForm={()=>setShowEditPopup(false)} project={_projectList.current[selectedProjectIndex]}/></Popup>}
+        {showEditPopup && <Popup closePopup={()=> setShowEditPopup(false)} title='Edit project' ><EditProjectForm btnFunction={updateProject} closeForm={()=>setShowEditPopup(false)} project={projectList[selectedProjectIndex]}/></Popup>}
         {showPopup && <Popup closePopup={()=> setShowPopup(false)} title='Create a new project' ><ProjectForm btnFunction={addNewProjectToList} closeForm={()=>setShowPopup(false)}/></Popup>}
         </>
     );
@@ -236,7 +236,7 @@ function EditProjectForm({btnFunction, closeForm, project}){
              const project = {
                 "name": nameRef.current.value,
                 "date": dateRef.current.value,
-                "description":descriptionRef.current.value 
+                "description":descriptionRef.current.value
              }
             btnFunction(project);
             closeForm();
